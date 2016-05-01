@@ -19,12 +19,7 @@ class FaceDetect
         batch_response = execute
         response = batch_response.responses.first
         response.face_annotations.map do |annotation|
-          landmarks_by_name = {}
-          annotation.landmarks.each do |landmark|
-            pos = landmark.position
-            landmarks_by_name[landmark.type] = FaceDetect::Landmark.new(pos.x, pos.y)
-          end
-          FaceDetect::Face.new(landmarks_by_name)
+          convert_face(annotation)
         end
       end
 
@@ -77,6 +72,23 @@ class FaceDetect
       def execute
         service.authorization = authorization
         service.annotate_image(batch_request, fields: fields)
+      end
+
+      def landmarks_by_name(annotation)
+        results = {}
+        annotation.landmarks.each do |google_landmark|
+          results[google_landmark.type] = convert_landmark(google_landmark)
+        end
+        results
+      end
+
+      def convert_face(annotation)
+        FaceDetect::Face.new(landmarks_by_name(annotation))
+      end
+
+      def convert_landmark(google_landmark)
+        pos = google_landmark.position
+        FaceDetect::Landmark.new(pos.x, pos.y)
       end
     end
   end
