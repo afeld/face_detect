@@ -16,8 +16,7 @@ class FaceDetect
       end
 
       def run
-        service.authorization = authorization
-        response = service.annotate_image(batch_request, fields: fields)
+        results = execute
         # TODO convert
       end
 
@@ -32,10 +31,7 @@ class FaceDetect
       end
 
       def credentials
-        ENV.fetch('GOOGLE_CREDENTIALS_JSON') do
-          STDERR.puts "Please set GOOGLE_CREDENTIALS_JSON environment variable."
-          exit 1
-        end
+        ENV.fetch('GOOGLE_CREDENTIALS_JSON')
       end
 
       def authorization
@@ -68,6 +64,11 @@ class FaceDetect
 
       def fields
         'responses(faceAnnotations(landmarks))'
+      end
+
+      def execute
+        service.authorization = authorization
+        service.annotate_image(batch_request, fields: fields)
       end
     end
   end
