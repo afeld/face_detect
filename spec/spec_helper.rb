@@ -1,2 +1,4 @@
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'face_detect'
+require 'webmock'
+require_relative '../lib/face_detect'
+
+WebMock.disable_net_connect!
