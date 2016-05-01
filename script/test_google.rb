@@ -1,8 +1,9 @@
-# After following the setup steps in the README, run
+# After following the installation steps in the README, run
 #
-#   GOOGLE_CREDENTIALS_JSON=$(cat <credentials>.json) bundle exec ruby script/test_google.rb
+#   bundle exec ruby script/test_google.rb
 #
 require 'pp'
+
 require_relative '../lib/face_detect'
 require_relative '../lib/face_detect/adapter/google'
 
