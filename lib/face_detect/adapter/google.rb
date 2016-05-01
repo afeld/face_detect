@@ -1,14 +1,8 @@
-require 'googleauth'
-require 'google/apis/vision_v1'
-require 'stringio'
+require_relative 'google/service'
 
 class FaceDetect
   module Adapter
     class Google
-      # alias the module
-      # http://www.rubydoc.info/github/google/google-api-ruby-client/Google/Apis/VisionV1/VisionService
-      Vision = ::Google::Apis::VisionV1
-
       attr_reader :file
 
       def initialize(file)
@@ -25,10 +19,6 @@ class FaceDetect
 
       private
 
-      def service
-        @service ||= Vision::VisionService.new
-      end
-
       def scopes
         ['https://www.googleapis.com/auth/cloud-platform']
       end
@@ -42,36 +32,9 @@ class FaceDetect
         ::Google::Auth::ServiceAccountCredentials.make_creds(json_key_io: key_io, scope: scopes)
       end
 
-      def image_contents
-        File.read(file)
-      end
-
-      def image
-        Vision::Image.new(content: image_contents)
-      end
-
-      def features
-        [Vision::Feature.new(type: 'FACE_DETECTION')]
-      end
-
-      def batch_request
-        @batch_request ||= Vision::BatchAnnotateImagesRequest.new(
-          requests: [
-            {
-              image: image,
-              features: features
-            }
-          ]
-        )
-      end
-
-      def fields
-        'responses(faceAnnotations(landmarks))'
-      end
-
       def execute
-        service.authorization = authorization
-        service.annotate_image(batch_request, fields: fields)
+        service = Service.new(authorization, file)
+        batch_response = service.run
       end
 
       def landmarks_by_name(annotation)
