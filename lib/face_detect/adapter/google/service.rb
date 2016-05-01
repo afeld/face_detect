@@ -1,6 +1,4 @@
-require 'googleauth'
 require 'google/apis/vision_v1'
-require 'stringio'
 
 class FaceDetect
   module Adapter
