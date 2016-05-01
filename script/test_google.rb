@@ -1,14 +1,7 @@
-# Create a JSON service account key here:
-#
-# https://console.cloud.google.com/apis/credentials/serviceaccountkey
-#
-# then run with
+# After following the setup steps in the README, run
 #
 #   GOOGLE_CREDENTIALS_JSON=$(cat <credentials>.json) bundle exec ruby script/test_google.rb
 #
-# http://www.rubydoc.info/github/google/google-api-ruby-client/Google/Apis/VisionV1/VisionService
-#
-
 require 'pp'
 require_relative '../lib/face_detect'
 require_relative '../lib/face_detect/adapter/google'

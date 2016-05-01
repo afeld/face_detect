@@ -2,40 +2,50 @@
 
 A Ruby gem for face detection in images. Also includes detection of facial features/landmarks. The backends are swappable.
 
+While the intention is to support multiple adapters, the only one available for now is the [**Google Cloud Vision API**](https://cloud.google.com/vision/).
+
 ## Installation
 
-Requires Ruby 2+. Add this line to your application's Gemfile:
+Requires Ruby 2+.
 
-```ruby
-gem 'face_detect'
-```
+1. Add this line to your application's Gemfile:
 
-And then execute:
+    ```ruby
+    gem 'face_detect'
+    ```
 
-    $ bundle
+1. Execute:
 
-Or install it yourself as:
+    ```bash
+    bundle
+    ```
 
-    $ gem install face_detect
+1. [Create a JSON service account key.](https://console.cloud.google.com/apis/credentials/serviceaccountkey)
 
 ## Usage
 
-```ruby
-require 'face_detect'
-require 'face_detect/adapter/google'
+1. The JSON file that you downloaded contains your credentials. Set the full contents as an environment variable.
 
-input = File.new('image.png')
-detector = FaceDetect.new(
-  file: input,
-  adapter: FaceDetect::Adapter::Google
-)
-result = detector.run
-result.faces #=> [<FaceDetect::Face>, ...]
-face = result.faces.first
-face.mouth_left.x #=> 225.06
-```
+    ```bash
+    export GOOGLE_CREDENTIALS_JSON=$(cat <credentials>.json)
+    ```
 
-`FaceDetect` accepts either a URL as a String, or a File/TempFile instance.
+1. Add the following to your code:
+
+    ```ruby
+    require 'face_detect'
+    require 'face_detect/adapter/google'
+
+    input = File.new('image.png')
+    detector = FaceDetect.new(
+      file: input,
+      adapter: FaceDetect::Adapter::Google
+    )
+    result = detector.run
+    result.faces #=> [<FaceDetect::Face>, ...]
+    face = result.faces.first
+    face.mouth_left.x #=> 225.06
+    ```
 
 ## Development
 

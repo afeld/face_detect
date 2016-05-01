@@ -5,7 +5,9 @@ require 'stringio'
 class FaceDetect
   module Adapter
     class Google
-      Vision = ::Google::Apis::VisionV1 # Alias the module
+      # alias the module
+      # http://www.rubydoc.info/github/google/google-api-ruby-client/Google/Apis/VisionV1/VisionService
+      Vision = ::Google::Apis::VisionV1
 
       attr_reader :file
 
