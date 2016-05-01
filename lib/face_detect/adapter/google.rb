@@ -1,5 +1,6 @@
 require 'googleauth'
 require 'google/apis/vision_v1'
+require 'stringio'
 
 class FaceDetect
   module Adapter
@@ -13,6 +14,7 @@ class FaceDetect
       end
 
       def run
+        service.authorization = authorization
         response = service.annotate_image(batch_request, fields: fields)
         # TODO convert
       end
@@ -27,8 +29,16 @@ class FaceDetect
         ['https://www.googleapis.com/auth/cloud-platform']
       end
 
+      def credentials
+        ENV.fetch('GOOGLE_CREDENTIALS_JSON') do
+          STDERR.puts "Please set GOOGLE_CREDENTIALS_JSON environment variable."
+          exit 1
+        end
+      end
+
       def authorization
-        ::Google::Auth.get_application_default(scopes)
+        key_io = StringIO.new(credentials)
+        ::Google::Auth::ServiceAccountCredentials.make_creds(json_key_io: key_io, scope: scopes)
       end
 
       def image_contents
