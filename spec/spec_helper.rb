@@ -1,4 +1,5 @@
 require 'webmock/rspec'
+require 'pry-byebug'
 require_relative '../lib/face_detect'
 
 WebMock.disable_net_connect!
