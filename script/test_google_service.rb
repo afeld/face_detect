@@ -15,4 +15,4 @@ input = File.new(path)
 authorization = FaceDetect::Adapter::Google::AuthHelper.authorization
 service = FaceDetect::Adapter::Google::Service.new(authorization, input)
 result = service.run
-puts JSON.pretty_generate(result.to_h)
+puts result.to_json
