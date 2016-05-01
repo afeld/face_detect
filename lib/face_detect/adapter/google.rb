@@ -16,8 +16,10 @@ class FaceDetect
       end
 
       def run
-        results = execute
-        # TODO convert
+        batch_response = execute
+        batch_response.responses.map do |response|
+          Face.new
+        end
       end
 
       private

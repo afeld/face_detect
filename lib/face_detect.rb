@@ -1,4 +1,5 @@
 require 'face_detect/version'
+require 'face_detect/face'
 
 class FaceDetect
   attr_reader :file, :adapter_instance
