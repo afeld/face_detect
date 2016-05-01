@@ -13,8 +13,12 @@ class FaceDetect
       def run
         batch_response = execute
         response = batch_response.responses.first
-        response.face_annotations.map do |annotation|
-          convert_face(annotation)
+        if response && response.face_annotations
+          response.face_annotations.map do |annotation|
+            convert_face(annotation)
+          end
+        else
+          []
         end
       end
 
