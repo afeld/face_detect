@@ -1,7 +1,9 @@
+require 'set'
+
 class FaceDetect
   class Face
     # https://cloud.google.com/vision/reference/rest/v1/images/annotate#Landmark
-    POINTS = %i(
+    LANDMARK_NAMES = %i(
       left_eye
       right_eye
       left_of_left_eyebrow
@@ -36,12 +38,15 @@ class FaceDetect
       chin_gnathion
       chin_left_gonion
       chin_right_gonion
-    )
+    ).to_set.freeze
 
-    attr_reader *POINTS
+    attr_reader *LANDMARK_NAMES
 
     def initialize(landmarks_by_name={})
       landmarks_by_name.each do |name, landmark|
+        unless LANDMARK_NAMES.include?(name.to_sym)
+          raise "'#{name}' not a valid landmark name."
+        end
         instance_variable_set("@#{name}", landmark)
       end
     end
