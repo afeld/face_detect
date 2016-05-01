@@ -59,7 +59,11 @@ describe FaceDetect::Adapter::Google do
       ])
       results = detector.run
       expect(results.size).to eq(1)
-      expect(results.first).to be_a(FaceDetect::Face)
+      face = results.first
+      expect(face).to be_a(FaceDetect::Face)
+      expect(face.left_eye).to be_a(FaceDetect::Landmark)
+      expect(face.left_eye.x).to eq(123.0)
+      expect(face.left_eye.y).to eq(456.0)
     end
   end
 end

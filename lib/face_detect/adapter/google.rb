@@ -77,7 +77,8 @@ class FaceDetect
       def landmarks_by_name(annotation)
         results = {}
         annotation.landmarks.each do |google_landmark|
-          results[google_landmark.type] = convert_landmark(google_landmark)
+          name = google_landmark.type.downcase
+          results[name] = convert_landmark(google_landmark)
         end
         results
       end
