@@ -4,7 +4,7 @@ A Ruby gem for face detection in images. Also includes detection of facial featu
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Requires Ruby 2+. Add this line to your application's Gemfile:
 
 ```ruby
 gem 'face_detect'
