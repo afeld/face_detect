@@ -17,8 +17,14 @@ class FaceDetect
 
       def run
         batch_response = execute
-        batch_response.responses.map do |response|
-          Face.new
+        response = batch_response.responses.first
+        response.face_annotations.map do |annotation|
+          landmarks_by_name = {}
+          annotation.landmarks.each do |landmark|
+            pos = landmark.position
+            landmarks_by_name[landmark.type] = FaceDetect::Landmark.new(pos.x, pos.y)
+          end
+          FaceDetect::Face.new(landmarks_by_name)
         end
       end
 

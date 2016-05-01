@@ -1,5 +1,4 @@
-require 'face_detect/version'
-require 'face_detect/face'
+Dir[File.expand_path('face_detect/*.rb', __dir__)].each { |file| require file }
 
 class FaceDetect
   attr_reader :file, :adapter_instance

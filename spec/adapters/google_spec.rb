@@ -43,10 +43,23 @@ describe FaceDetect::Adapter::Google do
       )
       stub_auth(detector)
 
-      stub_annotations
+      stub_annotations([
+        {
+          landmarks: [
+            {
+              type: 'LEFT_EYE',
+              position: {
+                x: 123.0,
+                y: 456.0,
+                z: 789.0
+              }
+            }
+          ]
+        }
+      ])
       results = detector.run
-      puts results.class
       expect(results.size).to eq(1)
+      expect(results.first).to be_a(FaceDetect::Face)
     end
   end
 end
