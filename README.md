@@ -20,7 +20,22 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'face_detect'
+require 'face_detect/adapter/google'
+
+input = File.new('image.png')
+detector = FaceDetect.new(
+  file: input,
+  adapter: FaceDetect::Adapter::Google
+)
+result = detector.run
+result.faces #=> [<FaceDetect::Face>, ...]
+face = result.faces.first
+face.mouth_left.x #=> 225.06
+```
+
+`FaceDetect` accepts either a URL as a String, or a File/TempFile instance.
 
 ## Development
 
